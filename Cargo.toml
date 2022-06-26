@@ -1,0 +1,33 @@
+[package]
+name = "rust-tui-project-template"
+version = "0.1.0"
+authors = ["Xithrius <xithrius@gmail.com>"]
+edition = "2021"
+description = "A template for Rust TUI projects. "
+documentation = "https://github.com/Xithrius/rust-tui-project-template"
+homepage = "https://github.com/Xithrius/rust-tui-project-template"
+repository = "https://github.com/Xithrius/rust-tui-project-template"
+license = "MIT OR Apache-2.0"
+keywords = ["tui"]
+categories = ["command-line-utilities"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+crossterm = "0.23.2"
+tui = { version = "0.18.0", default-features = false, features = [ "crossterm" ] }
+clap = { version = "3.1.1", features = [ "derive", "cargo" ] }
+serde = { version = "1.0.137", features = [ "derive" ] }
+unicode-width = "0.1.9"
+unicode-segmentation = "1.9.0"
+chrono = "0.4"
+toml = "0.5.9"
+color-eyre = "0.6.1"
+rustyline = "9.1.2"
+regex = "1.5.6"
+ureq = "2.4.0"
+
+[[bin]]
+bench = false
+path = "src/main.rs"
+name = "rust-tui-project-template"
