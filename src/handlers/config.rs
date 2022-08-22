@@ -5,37 +5,35 @@ use std::{
 };
 
 use color_eyre::eyre::{bail, Error, Result};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::utils::pathing::config_path;
 
-const CONFIG_URL: &str =
-    "https://raw.githubusercontent.com/Xithrius/rust-tui-project-template/main/default-config.toml";
-
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CompleteConfig {
+    /// Internal functionality
     pub terminal: TerminalConfig,
+    /// What everything looks like to the user
     pub frontend: FrontendConfig,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(default)]
 pub struct TerminalConfig {
+    /// How often the terminal will update
     pub tick_delay: u64,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct FrontendConfig {
+    /// The margin around the main window from to the terminal border
     pub margin: u16,
 }
 
-fn download_file(url_source: &str, destination: &str) -> Result<(), ureq::Error> {
-    let mut file = File::create(destination).unwrap();
-
-    let body = ureq::get(url_source).call().unwrap().into_string().unwrap();
-
-    file.write_all(body.as_bytes()).unwrap();
-
-    Ok(())
+impl Default for TerminalConfig {
+    fn default() -> Self {
+        Self { tick_delay: 30 }
+    }
 }
 
 impl CompleteConfig {
@@ -47,11 +45,15 @@ impl CompleteConfig {
         if !p.exists() {
             create_dir_all(p.parent().unwrap()).unwrap();
 
-            download_file(CONFIG_URL, &path_str).unwrap();
+            let default_toml_string = toml::to_string(&CompleteConfig::default()).unwrap();
+            let mut file = File::create(path_str.clone()).unwrap();
+            file.write_all(default_toml_string.as_bytes()).unwrap();
 
             bail!("Configuration was generated at {path_str}, please fill it out with necessary information.")
         } else if let Ok(config_contents) = read_to_string(&p) {
             let config: CompleteConfig = toml::from_str(config_contents.as_str()).unwrap();
+
+            // Remember to check for any important missing config items here!
 
             Ok(config)
         } else {
