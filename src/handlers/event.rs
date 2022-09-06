@@ -52,7 +52,7 @@ pub struct Config {
 }
 
 impl Events {
-    pub async fn with_config(config: Config) -> Events {
+    pub async fn with_config(config: Config) -> Self {
         let (tx, rx) = mpsc::channel(100);
 
         tokio::spawn(async move {
@@ -83,7 +83,6 @@ impl Events {
                                 KeyCode::Tab => Key::Tab,
                                 KeyCode::BackTab => Key::BackTab,
                                 KeyCode::Enter => Key::Enter,
-                                KeyCode::Null => Key::Null,
                                 KeyCode::F(k) => Key::F(k),
                                 KeyCode::Char(c) => match key.modifiers {
                                     KeyModifiers::NONE | KeyModifiers::SHIFT => Key::Char(c),
@@ -92,18 +91,11 @@ impl Events {
                                     _ => Key::Null,
                                 },
                                 _ => Key::Null,
-                                // KeyCode::CapsLock => todo!(),
-                                // KeyCode::ScrollLock => todo!(),
-                                // KeyCode::NumLock => todo!(),
-                                // KeyCode::PrintScreen => todo!(),
-                                // KeyCode::Pause => todo!(),
-                                // KeyCode::Menu => todo!(),
-                                // KeyCode::KeypadBegin => todo!(),
-                                // KeyCode::Media(_) => todo!(),
-                                // KeyCode::Modifier(_) => todo!(),
                             };
+
                             if let Err(err) = tx.send(Event::Input(key)).await {
                                 eprintln!("Keyboard input error: {}", err);
+
                                 return;
                             }
                         }
@@ -119,6 +111,7 @@ impl Events {
 
                             if let Err(err) = tx.send(Event::Input(key)).await {
                                 eprintln!("Mouse input error: {}", err);
+
                                 return;
                             }
                         }
@@ -131,11 +124,13 @@ impl Events {
                         eprintln!("{}", err);
                         return;
                     }
+
                     last_tick = Instant::now();
                 }
             }
         });
-        Events { rx }
+
+        Self { rx }
     }
 
     pub async fn next(&mut self) -> Option<Event<Key>> {
