@@ -13,6 +13,7 @@ mod handlers;
 mod terminal;
 mod ui;
 mod utils;
+mod commands;
 
 use color_eyre::eyre::{Result, WrapErr};
 
