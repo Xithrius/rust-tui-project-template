@@ -9,11 +9,11 @@
     clippy::future_not_send
 )]
 
+mod commands;
 mod handlers;
 mod terminal;
 mod ui;
 mod utils;
-mod commands;
 
 use color_eyre::eyre::{Result, WrapErr};
 
