@@ -23,7 +23,7 @@ unicode-segmentation = "1.10.0"
 chrono = "0.4.23"
 toml = "0.5.10"
 color-eyre = "0.6.2"
-rustyline = "10.0.0"
+rustyline = "10.1.0"
 
 [[bin]]
 bench = false
