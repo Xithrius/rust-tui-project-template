@@ -46,6 +46,7 @@ impl Default for TerminalConfig {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum CursorType {
+    User,
     Line,
     Block,
     UnderScore,
@@ -65,7 +66,7 @@ impl FromStr for CursorType {
 
 impl Default for CursorType {
     fn default() -> Self {
-        Self::Block
+        Self::User
     }
 }
 
