@@ -30,7 +30,7 @@ pub async fn ui_driver(config: CompleteConfig) {
     loop {
         terminal.draw(|frame| draw_ui(frame, &config)).unwrap();
 
-        if let Some(Event::Input(Key::Char('q'))) = events.next().await {
+        if matches!(events.next().await, Some(Event::Input(Key::Char('q')))) {
             quit_terminal(terminal);
 
             break;
