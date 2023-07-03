@@ -17,7 +17,7 @@ categories = ["command-line-utilities"]
 crossterm = "0.26.1"
 tui = { package = "ratatui", version = "0.20.1", default-features = false, features = [ "crossterm", "serde" ] }
 tokio = { version = "1.25.0", features = [ "full" ] }
-serde = { version = "1.0.152", features = [ "derive" ] }
+serde = { version = "1.0.165", features = [ "derive" ] }
 unicode-width = "0.1.10"
 unicode-segmentation = "1.10.1"
 chrono = "0.4.23"
