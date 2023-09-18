@@ -21,7 +21,7 @@ serde = { version = "1.0.152", features = [ "derive" ] }
 unicode-width = "0.1.10"
 unicode-segmentation = "1.10.1"
 chrono = "0.4.23"
-toml = "0.7.2"
+toml = "0.8.0"
 color-eyre = "0.6.2"
 rustyline = "11.0.0"
 
